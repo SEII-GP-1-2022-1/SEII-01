@@ -24,6 +24,22 @@ pygame.display.set_caption("Drone's Move")
 # Definindo variavel de execução
 running = True
 
+
+def check_collision(img_drone, img_drone_rect):
+
+    if img_drone_rect.centery <= img_drone.get_height() / 2:
+        img_drone_rect.centery = int(img_drone.get_height() / 2)
+
+    if img_drone_rect.centerx <= img_drone.get_width() / 2:
+        img_drone_rect.centerx = int(img_drone.get_width() / 2)
+
+    if img_drone_rect.centerx > size_with - img_drone.get_width() / 2:
+        img_drone_rect.centerx = int(size_with - img_drone.get_width() / 2)
+
+    if img_drone_rect.centery > size_height - img_drone.get_height() / 2:
+        img_drone_rect.centery = size_height - int(img_drone.get_height() / 2)
+
+
 # Loope de execução
 while running:
 
@@ -55,14 +71,7 @@ while running:
         img_drone_rect.centery += speed
 
     # Checando colisoes
-    if img_drone_rect.centery == 0:
-        img_drone_rect.centery = size_height
-
-    if img_drone_rect.centerx > size_with:
-        img_drone_rect.centerx = size_with
-
-    if img_drone_rect.centery > size_height:
-        img_drone_rect.centery = size_height
+    check_collision(img_drone, img_drone_rect)
 
     pygame.time.delay(10)
     pygame.display.update()
