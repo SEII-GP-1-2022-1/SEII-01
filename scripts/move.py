@@ -10,6 +10,7 @@ size_with = bkg_img.get_rect().width
 size_height = bkg_img.get_rect().height
 
 speed = 10  # [pixel/segundo]
+clock = pygame.time.Clock()
 
 # Definindo o tamanho da tela, como a largura e altura da imagem de fundo
 screen = pygame.display.set_mode((size_with, size_height))
@@ -54,12 +55,18 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    
+    t = clock.get_time() / 1000 # pega o tempo e passa para s
+    g = 9.81 * t # definindo velocidade do drone por efeito da gravidade
+
     # Variavel para receber o tipo de tecla que esta sendo pressionada
     keyboard_pressed = pygame.key.get_pressed()
 
     # Verificando o tipo de tecla que foi pressionada
     if keyboard_pressed[pygame.K_LEFT]:
         img_drone_rect.centerx -= speed
+        g = 0
+        clock = pygame.time.Clock()
 
     if keyboard_pressed[pygame.K_RIGHT]:
         img_drone_rect.centerx += speed
@@ -70,8 +77,12 @@ while running:
     if keyboard_pressed[pygame.K_DOWN]:
         img_drone_rect.centery += speed
 
+    else:
+        img_drone_rect.centery += g * speed
+
     # Checando colisoes
     check_collision(img_drone, img_drone_rect)
 
     pygame.time.delay(10)
     pygame.display.update()
+    clock.tick(30)
