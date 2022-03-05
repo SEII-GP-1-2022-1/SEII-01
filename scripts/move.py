@@ -1,17 +1,24 @@
 import pygame  # Importando a pygame
+import dynamics
 from parameters import *  # Importando os parametros de variaveis definidos
 
 pygame.init()  # Iniciando a pygame
 
 bkg_img = pygame.image.load(name_bkg_img)
 
-# Pegando o compriment e a altura e o da imagem
+# Pegando o comprimento e a altura da imagem
 size_with = bkg_img.get_rect().width
 size_height = bkg_img.get_rect().height
 
+# Parâmetros
+g = 9.81 # aceleração da gravidade
+m = 0.25 # massa
+
+Fy = 0
+drone_pos = 0
 speed = 10  # [pixel/segundo]
 speed_y = 0
-g = 9.81 # gravity acceleration [m/s²]
+
 clock = pygame.time.Clock()
 
 # Definindo o tamanho da tela, como a largura e altura da imagem de fundo
@@ -41,6 +48,17 @@ def check_collision(img_drone, img_drone_rect):
     if img_drone_rect.centery > size_height - img_drone.get_height() / 2:
         img_drone_rect.centery = size_height - int(img_drone.get_height() / 2)
 
+def gravity_dynamics():
+
+    time = clock.get_time() / 1000 # pega o tempo e passa para s 
+    Fy = m * g
+    speed = Fy * time
+    return speed
+
+def speed2pixels(speed):
+    pixels = speed * 5
+    return pixels
+
 # Loop de execução
 while running:
 
@@ -55,10 +73,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    time = clock.get_time() / 1000 # pega o tempo e passa para s  
-    s_y = g * time # definindo velocidade do drone por efeito da gravidade
-    speed_y += s_y # velocidade do drone por efeito da gravidade mudando a cada segundo
-    
     # Variavel para receber o tipo de tecla que esta sendo pressionada
     keyboard_pressed = pygame.key.get_pressed()
 
@@ -82,7 +96,8 @@ while running:
         img_drone_rect.centery += speed
 
     else:
-        img_drone_rect.centery += speed_y
+        speed_y += gravity_dynamics()
+        img_drone_rect.centery += speed2pixels(speed_y)
 
     # Checando colisoes
     check_collision(img_drone, img_drone_rect)
