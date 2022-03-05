@@ -1,5 +1,4 @@
 import pygame  # Importando a pygame
-import dynamics
 from parameters import *  # Importando os parametros de variaveis definidos
 
 pygame.init()  # Iniciando a pygame
@@ -10,12 +9,6 @@ bkg_img = pygame.image.load(name_bkg_img)
 size_with = bkg_img.get_rect().width
 size_height = bkg_img.get_rect().height
 
-# Parâmetros
-g = 9.81 # aceleração da gravidade
-m = 0.25 # massa
-
-Fy = 0
-drone_pos = 0
 speed = 10  # [pixel/segundo]
 speed_y = 0
 
@@ -50,13 +43,13 @@ def check_collision(img_drone, img_drone_rect):
 
 def gravity_dynamics():
 
-    time = clock.get_time() / 1000 # pega o tempo e passa para s 
-    Fy = m * g
-    speed = Fy * time
+    time = clock.get_time() / 1000 # pega o tempo e passa para segundos
+    speed = float(Fg[1] * time)
     return speed
 
 def speed2pixels(speed):
-    pixels = speed * 5
+
+    pixels = speed * -5
     return pixels
 
 # Loop de execução
