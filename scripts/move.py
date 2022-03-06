@@ -3,6 +3,7 @@ from parameters import *  # Importando os parametros de variaveis definidos
 from simulation import Simulation
 from drone import Drone
 from cmath import pi
+from menu import *
 
 pygame.init()  # Iniciando a pygame
 
@@ -78,9 +79,56 @@ def speed2pixels(speed):
     pixels = speed * -5
     return pixels
 
+n = 0
 
 # Loop de execução
 while running:
+
+    if n<1:
+        condition = True
+        while condition:
+            bg_menu()
+            for ev in pygame.event.get():
+                
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (backg_1_button.draw(screen)):
+                    n = n+1
+                    condition = False
+                
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (backg_2_button.draw(screen)):
+                    bkg_img = pygame.image.load(name_bkg_img_2)
+                    n = n+1
+                    condition = False
+
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (backg_3_button.draw(screen)):
+                    bkg_img = pygame.image.load(name_bkg_img_3)
+                    n = n+1
+                    condition = False
+
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (backg_4_button.draw(screen)):
+                    bkg_img = pygame.image.load(name_bkg_img_4)
+                    n = n+1
+                    condition = False
+
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (backg_5_button.draw(screen)):
+                    bkg_img = pygame.image.load(name_bkg_img_5)
+                    n = n+1
+                    condition = False
+
+    if n == 1:
+        condition = True
+        while condition:
+            drone_menu()
+            for ev in pygame.event.get():
+
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (drone_1_button.draw(screen)) == True:
+                    n = n+1
+                    condition = False
+
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (drone_2_button.draw(screen)) == True:
+                    drone = Drone(image_path=name_drone_img_2, init_pos=(init_x, init_y))
+                    all_images = drone.imgs_to_animation(path_drone_img_2)
+                    n = n+1
+                    condition = False
 
     if change_images_count >= len(all_images):
         change_images_count = 0
