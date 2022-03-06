@@ -36,8 +36,11 @@ init_x = interpolate(init_pos_m[0], 0, size_width_m, 0, size_width)
 init_y = interpolate(init_pos_m[1], 0, size_height_m, 0, size_height)
 init_y = size_height - init_y
 
+waypoints = [[25.0, 25.0], [35.0, 25.0], [8.0, 0.0], [0.0, 15.0], [25.0, 25.0]]
+
 # Definindo os objetos da simulação e atualização do drone
-sim = Simulation(step_sim=step, init_pos=init_pos_m, init_point=init_pos_m)
+#sim = Simulation(step_sim=step, init_pos=init_pos_m, init_point=init_pos_m)
+sim = Simulation(step_sim=step, init_pos=init_pos_m, init_point=None, init_traj=waypoints)
 drone = Drone(image_path=name_drone_img, init_pos=(init_x, init_y))
 all_images = drone.imgs_to_animation(path_drone_img)
 
