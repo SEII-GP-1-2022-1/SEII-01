@@ -15,7 +15,7 @@ class Simulation:
 
         # Parâmetros de simulação
         self.step_ratio = 10.0
-        self.step_sim = step_sim                        # Passo da simulação (C)
+        self.step_sim = step_sim  # Passo da simulação (C)
         self.step_control = step_sim * self.step_ratio  # Intervalo de amostragem
         self.t_sim = 0
         self.t_control = 0
@@ -30,8 +30,8 @@ class Simulation:
         # Restrições do controle
         self.phi_max = 15 * np.pi / 180.0  # ângulo máximo
         self.w_max = 15000
-        self.Fc_max = self.kf * self.w_max**2  # força de controle máxima
-        self.Tc_max = self.l * self.kf * self.w_max**2
+        self.Fc_max = self.kf * self.w_max ** 2  # força de controle máxima
+        self.Tc_max = self.l * self.kf * self.w_max ** 2
 
         # Controle das posições
         if init_point:
@@ -59,7 +59,7 @@ class Simulation:
 
             # Definição da próxima posição
             if np.linalg.norm(eP) < 0.1 and self.ref_ID < self.ref_IDN:
-                print(f'Position {self.ref_ID} reached: {self.ref_[self.ref_ID]}')
+                print(f"Position {self.ref_ID} reached: {self.ref_[self.ref_ID]}")
                 self.ref_ID += 1
 
             Fx = kpP * eP[0] + kdP * eV[0]
@@ -90,7 +90,7 @@ class Simulation:
 
             # Delta de forças
             df12 = np.absolute(Tc) / 2.0
-            if (Tc >= 0.0):
+            if Tc >= 0.0:
                 f12[0] = f12[0] + df12
                 f12[1] = f12[1] - df12
             else:
@@ -102,8 +102,8 @@ class Simulation:
             w2_ = np.sqrt(f12[1] / (self.kf))
 
             # Limitando o comando do motor
-            w1 = np.maximum(0., np.minimum(w1_, self.w_max))
-            w2 = np.maximum(0., np.minimum(w2_, self.w_max))
+            w1 = np.maximum(0.0, np.minimum(w1_, self.w_max))
+            w2 = np.maximum(0.0, np.minimum(w2_, self.w_max))
 
             # Determinação do comando de entrada
             self.u = np.array([w1, w2])
@@ -149,22 +149,22 @@ class Simulation:
 
         # Variáveis auxiliares
         # Forças
-        f1 = self.kf * w[0]**2
-        f2 = self.kf * w[1]**2
+        f1 = self.kf * w[0] ** 2
+        f2 = self.kf * w[1] ** 2
         # Torque
         Tc = self.l * (f1 - f2)
         # Força de controle
-        Fc_B = np.array([[0],
-                         [(f1 + f2)]])
+        Fc_B = np.array([[0], [(f1 + f2)]])
         # Matriz de atitude
-        D_RB = np.array([[np.cos(phi), -np.sin(phi)],
-                         [np.sin(phi), np.cos(phi)]])
+        D_RB = np.array([[np.cos(phi), -np.sin(phi)], [np.sin(phi), np.cos(phi)]])
 
         # Derivadas
         w_dot = (-w + w_) / self.tau
         ref_dot = v
         v_dot = (1 / self.m) * (D_RB @ Fc_B + self.Fg)
-        v_dot = v_dot.reshape(2,)
+        v_dot = v_dot.reshape(
+            2,
+        )
         phi_dot = np.array([ome])
         ome_dot = np.array([Tc / self.Iz])
 
