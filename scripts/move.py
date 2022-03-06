@@ -66,19 +66,6 @@ def check_collision(img_drone, img_drone_rect):
         img_drone_rect.centery = size_height - int(img_drone.get_height() / 2)
 """
 
-
-def gravity_dynamics():
-
-    time = clock.get_time() / 1000  # pega o tempo e passa para segundos
-    speed = float(Fg[1] * time)
-    return speed
-
-
-def speed2pixels(speed):
-
-    pixels = speed * -5
-    return pixels
-
 n = 0
 
 # Loop de execução
