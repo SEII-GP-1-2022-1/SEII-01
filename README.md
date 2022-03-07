@@ -3,20 +3,18 @@
 Clone o Repositorio:
 
 
-	git clone https://github.com/hericlesferraz/SEII-Hericles-Felipe-Ferraz.git 
+	git clone https://github.com/SEII-GP-1-2022-1/SEII-01.git
 
 Entre na pasta com os scripts:
 
-    cd Trabalho_Final_1/scripts/
+    cd SEII-01/scripts/
 
 Execute o codigo principal:
 
-    https://github.com/hericlesferraz/SEII-Hericles-Felipe-Ferraz.git
+    python3 move.py
 
-	
 O relatorio do projeto, se encontra em:
 
-    https://github.com/hericlesferraz/SEII-Hericles-Felipe-Ferraz/tree/master/TrabalhoFinal1/Relatorio
-	
+    https://github.com/SEII-GP-1-2022-1/SEII-01/tree/main/Relatorio
 
 
