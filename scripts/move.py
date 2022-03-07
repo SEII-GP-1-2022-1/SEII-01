@@ -3,6 +3,7 @@ from parameters import *  # Importando os parametros de variaveis definidos
 from simulation import Simulation
 from drone import Drone
 from cmath import pi
+from menu import *
 
 pygame.init()  # Iniciando a pygame
 
@@ -35,8 +36,11 @@ init_x = interpolate(init_pos_m[0], 0, size_width_m, 0, size_width)
 init_y = interpolate(init_pos_m[1], 0, size_height_m, 0, size_height)
 init_y = size_height - init_y
 
+waypoints = [[25.0, 25.0], [35.0, 25.0], [8.0, 0.0], [0.0, 15.0], [25.0, 25.0]]
+
 # Definindo os objetos da simulação e atualização do drone
-sim = Simulation(step_sim=step, init_pos=init_pos_m, init_point=init_pos_m)
+#sim = Simulation(step_sim=step, init_pos=init_pos_m, init_point=init_pos_m)
+sim = Simulation(step_sim=step, init_pos=init_pos_m, init_point=None, init_traj=waypoints)
 drone = Drone(image_path=name_drone_img, init_pos=(init_x, init_y))
 all_images = drone.imgs_to_animation(path_drone_img)
 
@@ -65,22 +69,56 @@ def check_collision(img_drone, img_drone_rect):
         img_drone_rect.centery = size_height - int(img_drone.get_height() / 2)
 """
 
-
-def gravity_dynamics():
-
-    time = clock.get_time() / 1000  # pega o tempo e passa para segundos
-    speed = float(Fg[1] * time)
-    return speed
-
-
-def speed2pixels(speed):
-
-    pixels = speed * -5
-    return pixels
-
+n = 0
 
 # Loop de execução
 while running:
+
+    if n<1:
+        condition = True
+        while condition:
+            bg_menu()
+            for ev in pygame.event.get():
+                
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (backg_1_button.draw(screen)):
+                    n = n+1
+                    condition = False
+                
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (backg_2_button.draw(screen)):
+                    bkg_img = pygame.image.load(name_bkg_img_2)
+                    n = n+1
+                    condition = False
+
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (backg_3_button.draw(screen)):
+                    bkg_img = pygame.image.load(name_bkg_img_3)
+                    n = n+1
+                    condition = False
+
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (backg_4_button.draw(screen)):
+                    bkg_img = pygame.image.load(name_bkg_img_4)
+                    n = n+1
+                    condition = False
+
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (backg_5_button.draw(screen)):
+                    bkg_img = pygame.image.load(name_bkg_img_5)
+                    n = n+1
+                    condition = False
+
+    if n == 1:
+        condition = True
+        while condition:
+            drone_menu()
+            for ev in pygame.event.get():
+
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (drone_1_button.draw(screen)) == True:
+                    n = n+1
+                    condition = False
+
+                if (ev.type == pygame.MOUSEBUTTONDOWN) and (drone_2_button.draw(screen)) == True:
+                    drone = Drone(image_path=name_drone_img_2, init_pos=(init_x, init_y))
+                    all_images = drone.imgs_to_animation(path_drone_img_2)
+                    n = n+1
+                    condition = False
 
     if change_images_count >= len(all_images):
         change_images_count = 0
